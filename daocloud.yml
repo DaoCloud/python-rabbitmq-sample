@@ -1,0 +1,14 @@
+image: daocloud/ci-python:2.7
+
+services:
+  - rabbitmq
+
+before_script:
+  - sleep 10
+
+script:
+  - pip install -r requirements.txt
+  - python rabbit.py
+  - nosetests test.py --with-xunit --xunit-file=$TEST_RESULT
+  - coverage run --branch test.py
+  - coverage xml -o $TEST_COVERAGE test.py
